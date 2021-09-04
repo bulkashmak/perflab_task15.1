@@ -27,7 +27,7 @@ public class WebDriverWrapper {
     private WebDriverWait wait;
 
     private WebDriverWrapper(){
-        LOG.info("Инициализирую экземпляр обертки над веб драйвером.");
+        LOG.debug("Инициализирую экземпляр обертки над веб драйвером.");
 
         ChromeOptions options = new ChromeOptions();
         options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
@@ -40,50 +40,55 @@ public class WebDriverWrapper {
 
         this.wait = new WebDriverWait(driver, 5, 100);
 
-        LOG.info("Инициализация обертки завершена.");
+        LOG.debug("Инициализация обертки завершена.");
     }
 
-    public static WebDriverWrapper getInstance(){
+    public static WebDriverWrapper getInstance() {
+
         LOG.debug("Запрошен экземпляр драйвера.");
-        if (wrap == null){
+        if (wrap == null) {
             wrap = new WebDriverWrapper();
         }
         return wrap;
     }
 
     public void get(String baseUrl) {
+
         LOG.debug(String.format("Открываю страницу по адресу '%s'", baseUrl));
         driver.get(baseUrl);
         LOG.debug(String.format("Открыл страницу по адресу '%s'", baseUrl));
     }
 
-
     public String getCurrentUrl() {
+
         LOG.debug("Получаю адрес текущей страницы...");
         return driver.getCurrentUrl();
     }
 
     public void close() {
+
         LOG.debug("Закрываю текущую страницу");
         driver.close();
     }
 
 
     public String getWindowHandle() {
+
         return driver.getWindowHandle();
     }
 
-
     public Set<String> getWindowHandles() {
+
         return driver.getWindowHandles();
     }
 
-
     public WebDriver.TargetLocator switchTo() {
+
         return driver.switchTo();
     }
 
     public void clickElement(String xpath){
+
         WebElement e;
         //даем 5 попыток нахождения элемента с небольшими скроллами
         //5 - просто как пример, вы можете вообще модифицировать цикл на while
@@ -110,6 +115,7 @@ public class WebDriverWrapper {
     }
 
     public WebElement findElement(By xpath) {
+
         try {
             LOG.debug("Ищу элемент по локатору '{}'", xpath);
             WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(xpath));
@@ -136,6 +142,7 @@ public class WebDriverWrapper {
     }
 
     public List<WebElement> findElements(By xpath) {
+
         LOG.debug("Ищу элемент по локатору '{}'", xpath);
         List<WebElement> elements = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(xpath));
         LOG.debug("Элемент по локатору '{}' найден.", xpath);
@@ -143,6 +150,7 @@ public class WebDriverWrapper {
     }
 
     public void scrollDown(int scrollDownValue){
+
         driver.executeScript(String.format("scroll(0, %d)", scrollDownValue));
     }
 }
