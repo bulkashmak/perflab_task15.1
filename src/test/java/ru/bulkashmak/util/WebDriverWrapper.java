@@ -149,8 +149,12 @@ public class WebDriverWrapper {
         return elements;
     }
 
-    public void scrollDown(int scrollDownValue){
+//    public void scrollDown(int scrollDownValue){
+//
+//        driver.executeScript(String.format("scroll(0, %d)", scrollDownValue));
+//    }
 
-        driver.executeScript(String.format("scroll(0, %d)", scrollDownValue));
+    public static void quit() {
+        driver.quit();
     }
 }

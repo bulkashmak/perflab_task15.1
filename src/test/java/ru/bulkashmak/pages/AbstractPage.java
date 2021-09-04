@@ -2,7 +2,7 @@ package ru.bulkashmak.pages;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import static org.junit.jupiter.api.Assertions.*;
+//import static org.junit.jupiter.api.Assertions.*;
 import ru.bulkashmak.util.WebDriverWrapper;
 
 public abstract class AbstractPage {
@@ -29,11 +29,9 @@ public abstract class AbstractPage {
         log.info("Страница по адресу '{}' была закрыта.", baseUrl);
     }
 
-    public void checkPage(){
-
-        log.info("Осуществляю проверку что мы находимся на странице по адресу '{}'.", baseUrl);
-        assertTrue(
-                driver.getCurrentUrl().contains(baseUrl)
-        );
-    }
+//    public void checkPage() {
+//
+//        log.info("Осуществляю проверку, что мы находимся на странице по адресу '{}'.", baseUrl);
+//        assertTrue(driver.getCurrentUrl().contains(baseUrl));
+//    }
 }

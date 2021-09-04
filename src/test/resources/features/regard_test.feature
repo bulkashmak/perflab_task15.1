@@ -15,8 +15,7 @@ Feature: Regard cart feature
     And user click add to cart button of 4th case on page
     And user click name of 10th case on page
 
-    Given user is on product page
-
     When user click add to cart button on product page
     And user click blue button open cart
     Then browser open cart page
+    And check that cart is not empty and contains added items
