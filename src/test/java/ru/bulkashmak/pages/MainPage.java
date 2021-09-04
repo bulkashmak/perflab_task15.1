@@ -1,6 +1,14 @@
 package ru.bulkashmak.pages;
 
-public class MainPage {
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import ru.bulkashmak.util.ProductCategory;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+public class MainPage extends AbstractPage {
 
     public MainPage() {
         super("https://regard.ru");
@@ -12,11 +20,17 @@ public class MainPage {
         motherboardsMenuItem.click();
     }
 
-    public void openMenuWithSubCategory(ProductCategory productCategory, String subCategoryName) {
-        openMenu(productCategory);
+    public void openMenuSubCategory(ProductCategory productCategory, String subCategoryName) {
         WebElement subCategory = driver.findElement(By.xpath(String.format(
                 "//a[text()='%s']/following-sibling::ul/li/a[text()='%s']", productCategory.sectionName, subCategoryName)));
         subCategory.click();
+    }
+
+    public void checkMenuSubCategoryOpened(String subCategoryName) {
+        WebElement mainPageTitle = driver.findElement(By.xpath("//div[@id='hits']/div[@class='top']/h1"));
+        assertTrue(
+                mainPageTitle.getText().contains(subCategoryName)
+        );
     }
 
     public void buyMarketItem(int itemIndex, List<String> shoppingList) {

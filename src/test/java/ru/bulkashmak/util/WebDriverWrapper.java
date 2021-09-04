@@ -22,12 +22,12 @@ public class WebDriverWrapper {
     private static RemoteWebDriver driver;
     private static WebDriverWrapper wrap;
 
-    private static final Logger LOG = LogManager.getRootLogger();
+    private static Logger log = LogManager.getRootLogger();
 
     private WebDriverWait wait;
 
     private WebDriverWrapper(){
-        LOG.debug("Инициализирую экземпляр обертки над веб драйвером.");
+        log.debug("Инициализирую экземпляр обертки над веб драйвером.");
 
         ChromeOptions options = new ChromeOptions();
         options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
@@ -40,12 +40,12 @@ public class WebDriverWrapper {
 
         this.wait = new WebDriverWait(driver, 5, 100);
 
-        LOG.debug("Инициализация обертки завершена.");
+        log.debug("Инициализация обертки завершена.");
     }
 
     public static WebDriverWrapper getInstance() {
 
-        LOG.debug("Запрошен экземпляр драйвера.");
+        log.debug("Запрошен экземпляр драйвера.");
         if (wrap == null) {
             wrap = new WebDriverWrapper();
         }
@@ -54,20 +54,20 @@ public class WebDriverWrapper {
 
     public void get(String baseUrl) {
 
-        LOG.debug(String.format("Открываю страницу по адресу '%s'", baseUrl));
+        log.debug(String.format("Открываю страницу по адресу '%s'", baseUrl));
         driver.get(baseUrl);
-        LOG.debug(String.format("Открыл страницу по адресу '%s'", baseUrl));
+        log.debug(String.format("Открыл страницу по адресу '%s'", baseUrl));
     }
 
     public String getCurrentUrl() {
 
-        LOG.debug("Получаю адрес текущей страницы...");
+        log.debug("Получаю адрес текущей страницы...");
         return driver.getCurrentUrl();
     }
 
     public void close() {
 
-        LOG.debug("Закрываю текущую страницу");
+        log.debug("Закрываю текущую страницу");
         driver.close();
     }
 
@@ -98,32 +98,32 @@ public class WebDriverWrapper {
                 e = this.findElement(By.xpath(xpath));
                 if (e.isDisplayed() && e.isEnabled()) {
                     e.click();
-                    LOG.debug("Кликнут элемент по локатору '%s'", xpath);
+                    log.debug("Кликнут элемент по локатору '%s'", xpath);
                     return;
                 }
             } catch (ElementNotInteractableException exc) {
-                LOG.warn("Элемент некликабелен. Делаю дополнительный скрол вниз и повторяю попытку клика...");
+                log.warn("Элемент некликабелен. Делаю дополнительный скрол вниз и повторяю попытку клика...");
                 driver.executeScript(String.format("scroll(0, %d)", 50));
             } catch (StaleElementReferenceException exc) {
-                LOG.warn("Элемент устарел/обновил свое состояние. Обновляю информацию об элементе и повторяю поиск...");
+                log.warn("Элемент устарел/обновил свое состояние. Обновляю информацию об элементе и повторяю поиск...");
             } catch (Exception exc){
                 exc.printStackTrace();
             }
         }
-        LOG.error(String.format("Не удалось кликнуть по элементу с локатором '%s'.", xpath));
+        log.error(String.format("Не удалось кликнуть по элементу с локатором '%s'.", xpath));
         throw new ElementNotInteractableException("Ошибка клика по элементу.");
     }
 
     public WebElement findElement(By xpath) {
 
         try {
-            LOG.debug("Ищу элемент по локатору '{}'", xpath);
+            log.debug("Ищу элемент по локатору '{}'", xpath);
             WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(xpath));
             ((JavascriptExecutor)driver).executeScript("arguments[0]['style']['backgroundColor']='darksalmon';", element);
 
             driver.executeScript("arguments[0].scrollIntoView(true);", element);
 
-            LOG.debug("Элемент по локатору '{}' найден.", xpath);
+            log.debug("Элемент по локатору '{}' найден.", xpath);
             return element;
         } catch (RuntimeException e){
             File source = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
@@ -143,9 +143,9 @@ public class WebDriverWrapper {
 
     public List<WebElement> findElements(By xpath) {
 
-        LOG.debug("Ищу элемент по локатору '{}'", xpath);
+        log.debug("Ищу элемент по локатору '{}'", xpath);
         List<WebElement> elements = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(xpath));
-        LOG.debug("Элемент по локатору '{}' найден.", xpath);
+        log.debug("Элемент по локатору '{}' найден.", xpath);
         return elements;
     }
 

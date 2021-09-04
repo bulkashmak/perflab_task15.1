@@ -6,7 +6,7 @@ public enum ProductCategory {
     COMPUTER_CASES("Корпуса"); ////a[text()='Корпуса']/following-sibling::ul/li/a[text()='AEROCOOL']
 
 
-    String sectionName;
+    public String sectionName;
 
     ProductCategory(String sectionName){
         this.sectionName = sectionName;
